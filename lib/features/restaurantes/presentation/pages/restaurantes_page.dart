@@ -1,3 +1,4 @@
+import 'package:app_restaurantes/features/restaurantes/presentation/pages/restaurante_detalhe.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantListPage extends StatelessWidget {
@@ -11,40 +12,31 @@ class RestaurantListPage extends StatelessWidget {
         category: 'Hambúrguer',
         rating: 4.8,
         deliveryTime: 30,
-        image:
-            'https://images.unsplash.com/photo-1550547660-d9450f859349',
       ),
       RestaurantModel(
         name: 'Pizza Prime',
         category: 'Pizzaria',
         rating: 4.6,
         deliveryTime: 40,
-        image:
-            'https://images.unsplash.com/photo-1601924928588-972c7d4f3b0b',
       ),
       RestaurantModel(
         name: 'Sushi World',
         category: 'Japonesa',
         rating: 4.9,
         deliveryTime: 50,
-        image:
-            'https://images.unsplash.com/photo-1562158070-57d5c8a7f6c4',
       ),
       RestaurantModel(
         name: 'Churrasco Grill',
         category: 'Churrascaria',
         rating: 4.7,
         deliveryTime: 35,
-        image:
-            'https://images.unsplash.com/photo-1558030006-450675393462',
+
       ),
       RestaurantModel(
         name: 'Fit Food',
         category: 'Saudável',
         rating: 4.5,
         deliveryTime: 25,
-        image:
-            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
       ),
     ];
 
@@ -69,7 +61,14 @@ class RestaurantListPage extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
               onTap: () {
-                /// futuro → abrir menu do restaurante
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RestaurantDetailsPage(
+    
+                  ),
+                ),
+              );
               },
               child: Row(
                 children: [
@@ -79,14 +78,9 @@ class RestaurantListPage extends StatelessWidget {
                       topLeft: Radius.circular(16),
                       bottomLeft: Radius.circular(16),
                     ),
-                    child: Image.network(
-                      restaurant.image,
-                      width: 120,
-                      height: 120,
-                      fit: BoxFit.cover,
-                    ),
+                    child: FlutterLogo()
                   ),
-
+          
                   /// INFOS
                   Expanded(
                     child: Padding(
@@ -103,9 +97,9 @@ class RestaurantListPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-
+          
                           const SizedBox(height: 6),
-
+          
                           /// CATEGORIA
                           Text(
                             restaurant.category,
@@ -113,9 +107,9 @@ class RestaurantListPage extends StatelessWidget {
                               color: Colors.grey[600],
                             ),
                           ),
-
+          
                           const SizedBox(height: 10),
-
+          
                           /// RATING + ENTREGA
                           Row(
                             children: [
@@ -129,9 +123,9 @@ class RestaurantListPage extends StatelessWidget {
                                 restaurant.rating
                                     .toString(),
                               ),
-
+          
                               const SizedBox(width: 16),
-
+          
                               const Icon(
                                 Icons.delivery_dining,
                                 size: 18,
@@ -171,13 +165,12 @@ class RestaurantModel {
   final String category;
   final double rating;
   final int deliveryTime;
-  final String image;
+
 
   RestaurantModel({
     required this.name,
     required this.category,
     required this.rating,
     required this.deliveryTime,
-    required this.image,
   });
 }
