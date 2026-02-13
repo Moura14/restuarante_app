@@ -49,16 +49,6 @@ class RestaurantListPage extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    /// IMAGEM
-                    ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        bottomLeft: Radius.circular(16),
-                      ),
-                      child: FlutterLogo()
-                    ),
-            
-                    /// INFOS
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(12),
@@ -102,12 +92,6 @@ class RestaurantListPage extends StatelessWidget {
                                 ),
             
                                 const SizedBox(width: 16),
-            
-                                const Icon(
-                                  Icons.delivery_dining,
-                                  size: 18,
-                                ),
-                                const SizedBox(width: 4),
                             
                               ],
                             ),
@@ -129,29 +113,4 @@ class RestaurantListPage extends StatelessWidget {
       ),
     );
   }
-}
-
-
-
-
-
-
-
-
-
-/// 📦 MODEL (no mesmo arquivo)
-
-class RestaurantModel {
-  final String name;
-  final String category;
-  final double rating;
-  final int deliveryTime;
-
-
-  RestaurantModel({
-    required this.name,
-    required this.category,
-    required this.rating,
-    required this.deliveryTime,
-  });
 }
