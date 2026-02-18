@@ -9,16 +9,28 @@ class RestauranteBloc extends Bloc<RestauranteEvent, RestauranteState> {
 
   RestauranteBloc({required this.useCase}) : super(RestauranteInitial()) {
     on<LoadRestaurantes>(_onLoadRestaurantes);
+    on<LoadRestauranteById>(_onLoadRestauranteById);
   }
 
   Future<void> _onLoadRestaurantes(
       LoadRestaurantes event, Emitter<RestauranteState> emit) async {
     emit(RestauranteLoading());
     try {
-      final restaurantes = await useCase.getRestaurante();
-      emit(RestauranteLoaded(restaurantes));
+      final restaurante = await useCase.getRestaurante();
+      emit(RestauranteLoaded(restaurante));
     } catch (e) {
       emit(RestauranteError(e.toString()));
     }
   }
-}
+
+  Future<void> _onLoadRestauranteById(
+      LoadRestauranteById event, Emitter<RestauranteState> emit) async {
+    emit(RestauranteLoading());
+    try {
+      final restaurante = await useCase.getRestauranteById(id: event.id);
+      emit(RestaurantLodadeById(restaurante));
+    } catch (e) {
+      emit(RestauranteError(e.toString()));
+    }
+  
+      }}

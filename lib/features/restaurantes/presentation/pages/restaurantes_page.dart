@@ -42,7 +42,7 @@ class RestaurantListPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => RestaurantDetailsPage(
-            
+                      id: restaurant.restaurantID,
                     ),
                   ),
                 );

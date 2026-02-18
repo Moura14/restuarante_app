@@ -47,6 +47,39 @@ class RestauranteRemoteDatasource {
     }
   }
 
+  Future<List<RestaurantModel>> getRestauranteById({required int id}) async {
+    try {
+      final response = await client
+          .get(
+            Uri.parse('https://fakerestaurantapi.runasp.net/api/Restaurant/$id'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+          )
+          .timeout(
+            const Duration(seconds: 30),
+            onTimeout: () => throw HttpException('Timeout na requisição'),
+          );
+
+      print('Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonMap = json.decode(response.body);
+        return [RestaurantModel.fromJson(jsonMap)];
+      } else if (response.statusCode == 404) {
+        return [];
+      } else {
+        throw HttpException('Erro na requisição: ${response.statusCode}');
+      }
+    } on HttpException {
+      rethrow;
+    } catch (e) {
+      throw HttpException('Erro na requisição: $e');
+    }
+  }
+
 
 
 }

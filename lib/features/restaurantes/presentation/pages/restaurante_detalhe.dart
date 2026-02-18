@@ -1,8 +1,30 @@
 
+import 'package:app_restaurantes/features/restaurantes/presentation/bloc/restaurante_bloc.dart';
+import 'package:app_restaurantes/features/restaurantes/presentation/bloc/restaurante_event.dart';
+import 'package:app_restaurantes/features/restaurantes/presentation/bloc/restaurante_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RestaurantDetailsPage extends StatelessWidget {
-  const RestaurantDetailsPage({super.key});
+class RestaurantDetailsPage extends StatefulWidget {
+  const RestaurantDetailsPage({super.key, required this.id});
+
+  final int id;
+
+
+  
+
+  @override
+  State<RestaurantDetailsPage> createState() => _RestaurantDetailsPageState();
+}
+
+class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    print('ID recebido: ${widget.id}');
+    context.read<RestauranteBloc>().add(LoadRestauranteById(widget.id));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,107 +33,81 @@ class RestaurantDetailsPage extends StatelessWidget {
         title: const Text('Detalhes do Restaurante'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// IMAGEM
-            SizedBox(
-              width: double.infinity,
-              height: 220,
-              child: Image.network(
-                'https://images.unsplash.com/photo-1555396273-367ea4eb4db5',
-                fit: BoxFit.cover,
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            /// CONTEÚDO
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// NOME
-                  const Text(
-                    'Nome do Restaurante',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  /// AVALIAÇÃO
-                  Row(
-                    children: const [
-                      Icon(Icons.star, color: Colors.amber),
-                      SizedBox(width: 4),
+      body: BlocBuilder<RestauranteBloc, RestauranteState>(
+        builder: (context, state){
+          if(state is RestauranteLoading){
+            return const Center(child: CircularProgressIndicator());
+          }
+          if(state is RestauranteError){
+            return Center(child: Text(state.message));
+          }
+          if(state is RestaurantLodadeById){
+            if (state.restaurante.isEmpty) {
+              return const Center(child: Text('Restaurante não encontrado'));
+            }
+            final restaurant = state.restaurante.first; // Assuming one restaurant
+            return SingleChildScrollView(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /// NOME
+                       Text(
+                        restaurant.restaurantName,
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                        
+                      const SizedBox(height: 8),
+                  
                       Text(
-                        '4.5',
+                        'Nome: ${restaurant.restaurantName}',
                         style: TextStyle(fontSize: 16),
                       ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  /// CATEGORIA
-                  const Text(
-                    'Categoria: Italiana',
-                    style: TextStyle(fontSize: 16),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  /// ENDEREÇO
-                  const Text(
-                    'Endereço: Rua Exemplo, 123 - Centro',
-                    style: TextStyle(fontSize: 16),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  /// ESTACIONAMENTO
-                  Row(
-                    children: const [
-                      Icon(Icons.local_parking, color: Colors.green),
-                      SizedBox(width: 6),
+                        
+                      const SizedBox(height: 8),
+                        
+                      /// ENDEREÇO
                       Text(
-                        'Possui estacionamento',
+                        'Endereço: ${restaurant.address}',
                         style: TextStyle(fontSize: 16),
                       ),
+                        
+                      const SizedBox(height: 12),
+                        
+                      /// ESTACIONAMENTO
+                      if (restaurant.parkingLot) ...[
+                        Row(
+                          children: const [
+                            Icon(Icons.local_parking, color: Colors.green),
+                            SizedBox(width: 6),
+                            Text(
+                              'Possui estacionamento',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+            
                     ],
                   ),
-
-                  const SizedBox(height: 20),
-
-                  /// DESCRIÇÃO
-                  const Text(
-                    'Descrição',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  const Text(
-                    'Restaurante especializado em massas artesanais '
-                    'e pratos tradicionais italianos, com ambiente '
-                    'aconchegante e atendimento de qualidade.',
-                    style: TextStyle(fontSize: 15),
-                  ),
-
-                  const SizedBox(height: 24),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        );
+          }
+          return const SizedBox.shrink();
+        },
+      
       ),
     );
   }

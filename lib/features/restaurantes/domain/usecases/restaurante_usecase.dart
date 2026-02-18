@@ -13,4 +13,9 @@ class RestauranteUseCase {
     return await repository.getRestaurante();
   }
 
+  Future<List<RestaurantModel>> getRestauranteById({required int id}) async {
+    return await repository.getRestauranteById(id: id);
+  }
+
+
 }

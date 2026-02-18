@@ -10,6 +10,12 @@ abstract class RestauranteEvent extends Equatable {
 class LoadRestaurantes extends RestauranteEvent {
   const LoadRestaurantes();
 }
-abstract class RestaurantEvent {}
 
-class LoadRestaurantsEvent extends RestaurantEvent {}
+class LoadRestauranteById extends RestauranteEvent {
+  final int id;
+
+  const LoadRestauranteById(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
