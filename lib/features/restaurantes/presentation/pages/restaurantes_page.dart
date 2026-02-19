@@ -37,6 +37,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                 decoration: InputDecoration(
                   hintText: 'Pesquisar por nome ou categoria',
                   prefixIcon: const Icon(Icons.search),
+                  contentPadding: const EdgeInsets.only(top: 12, bottom: 12, left: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
