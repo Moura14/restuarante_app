@@ -18,6 +18,11 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
 
   final TextEditingController _searchController = TextEditingController();
 
+  initState() {
+    super.initState();
+    print('Iniciando RestaurantListPage');
+  }
+
 
 
   @override
@@ -117,8 +122,8 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                               Row(
                                 children: [
                                   const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
+                                    Icons.location_on,
+                                    color: Colors.green,
                                     size: 18,
                                   ),
                                   const SizedBox(width: 4),
