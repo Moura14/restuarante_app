@@ -41,7 +41,7 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
           if(state is RestauranteError){
             return Center(child: Text(state.message));
           }
-          if(state is RestaurantLodadeById){
+          if(state is RestaurantLoadedById){
             if (state.restaurante.isEmpty) {
               return const Center(child: Text('Restaurante não encontrado'));
             }

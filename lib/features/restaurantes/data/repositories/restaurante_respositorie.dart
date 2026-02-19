@@ -4,6 +4,7 @@ import 'package:app_restaurantes/features/restaurantes/data/models/restaurante_m
 abstract class RestauranteRespositorie {
   Future<List<RestaurantModel>> getRestaurante();
   Future<List<RestaurantModel>> getRestauranteById({required int id});
+  Future<List<RestaurantModel>> getRestauranteByName({required String name});
 }
 
 class RestauranteRespositorieImpl implements RestauranteRespositorie {
@@ -20,6 +21,11 @@ class RestauranteRespositorieImpl implements RestauranteRespositorie {
   @override
   Future<List<RestaurantModel>> getRestauranteById({required int id}) async {
     return await remoteDatasource.getRestauranteById(id: id);
+  }
+
+   @override
+  Future<List<RestaurantModel>> getRestauranteByName({required String name}) async {
+    return await remoteDatasource.getRestauranteByName(name: name);
   }
 }
 

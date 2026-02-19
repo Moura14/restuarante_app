@@ -21,10 +21,10 @@ class RestauranteLoaded extends RestauranteState {
   List<Object?> get props => [restaurante];
 }
 
-class RestaurantLodadeById extends RestauranteState {
+class RestaurantLoadedById extends RestauranteState {
   final List<RestaurantModel> restaurante;
 
-  const RestaurantLodadeById(this.restaurante);
+  const RestaurantLoadedById(this.restaurante);
 
   @override
   List<Object?> get props => [restaurante];
