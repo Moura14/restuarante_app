@@ -1,3 +1,4 @@
+import 'package:app_restaurantes/features/restaurantes/data/models/restaurante_menu_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:app_restaurantes/features/restaurantes/data/models/restaurante_model.dart';
 
@@ -28,6 +29,15 @@ class RestaurantLoadedById extends RestauranteState {
 
   @override
   List<Object?> get props => [restaurante];
+}
+
+class RestaurantMenuLoaded extends RestauranteState {
+  final List<RestauranteMenuModel> menu;
+
+  const RestaurantMenuLoaded(this.menu);
+
+  @override
+  List<Object?> get props => [menu];
 }
 
 class RestauranteError extends RestauranteState {

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:app_restaurantes/features/restaurantes/data/models/restaurante_menu_model.dart';
 import 'package:app_restaurantes/features/restaurantes/data/models/restaurante_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -116,6 +117,46 @@ class RestauranteRemoteDatasource {
       throw HttpException('Erro na requisição: $e');
     }
   }
+
+  Future<List<RestauranteMenuModel>> getMenuRestaurante({required int id}) async {
+    try {
+      final response = await client
+          .get(
+            Uri.parse('https://fakerestaurantapi.runasp.net/api/Restaurant/$id/menu'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+          )
+          .timeout(
+            const Duration(seconds: 30),
+            onTimeout: () => throw HttpException('Timeout na requisição'),
+          );
+
+      print('Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = json.decode(response.body);
+        if (jsonList.isNotEmpty) {
+          return jsonList.map((json) => RestauranteMenuModel.fromJson(json)).toList();
+        } else {
+          return [];
+        }
+      } else if (response.statusCode == 404) {
+        return [];
+      } else {
+        throw HttpException('Erro na requisição: ${response.statusCode}');
+      }
+    } on HttpException {
+      rethrow;
+    } catch (e) {
+      throw HttpException('Erro na requisição: $e');
+    }
+  }
+
+
+
 
 
 

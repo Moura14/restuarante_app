@@ -2,6 +2,7 @@
 import 'package:app_restaurantes/features/restaurantes/presentation/bloc/restaurante_bloc.dart';
 import 'package:app_restaurantes/features/restaurantes/presentation/bloc/restaurante_event.dart';
 import 'package:app_restaurantes/features/restaurantes/presentation/bloc/restaurante_state.dart';
+import 'package:app_restaurantes/features/restaurantes/presentation/pages/restaurante_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -96,11 +97,26 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
                         ),
                         const SizedBox(height: 20),
                       ],
-            
-                    ],
-                  ),
-                ),
-              ],
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MenuPage(id: restaurant.restaurantID),
+                            ),
+                          );
+                        }, 
+                        label: Text('Ver Cardápio', style: const TextStyle(color: Colors.white)),
+                        icon: Icon(Icons.menu_book, color: Colors.white),
+                )]),
+            )],
             ),
           ),
         );
