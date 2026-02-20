@@ -27,6 +27,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final RestauranteUseCase useCase;
+  static final RouteObserver<ModalRoute<void>> routeObserver = RouteObserver<ModalRoute<void>>();
+
   const MyApp({super.key, required this.useCase});
 
   @override
@@ -34,7 +36,11 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (_) =>
           RestauranteBloc(useCase: useCase)..add(const LoadRestaurantes()),
-      child: MaterialApp(title: 'Restaurantes', home: RestaurantListPage()),
+      child: MaterialApp(
+        title: 'Restaurantes',
+        home: RestaurantListPage(),
+        navigatorObservers: [routeObserver],
+      ),
     );
   }
 }

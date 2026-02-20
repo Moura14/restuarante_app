@@ -29,7 +29,7 @@ class RestauranteRespositorieImpl implements RestauranteRespositorie {
   Future<List<RestaurantModel>> getRestauranteByName({required String name}) async {
     return await remoteDatasource.getRestauranteByName(name: name);
   }
-
+  
   @override
   Future<List<RestauranteMenuModel>> getRestauranteMenu({required int id}) async {
     return await remoteDatasource.getMenuRestaurante(id: id);

@@ -4,6 +4,7 @@ import 'package:app_restaurantes/features/restaurantes/presentation/bloc/restaur
 import 'package:app_restaurantes/features/restaurantes/presentation/pages/restaurante_detalhe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app_restaurantes/main.dart';
 
 class RestaurantListPage extends StatefulWidget {
    RestaurantListPage({super.key});
@@ -14,13 +15,35 @@ class RestaurantListPage extends StatefulWidget {
   State<RestaurantListPage> createState() => _RestaurantListPageState();
 }
 
-class _RestaurantListPageState extends State<RestaurantListPage> {
+class _RestaurantListPageState extends State<RestaurantListPage> with RouteAware {
 
   final TextEditingController _searchController = TextEditingController();
 
-  initState() {
+  @override
+  void initState() {
     super.initState();
     print('Iniciando RestaurantListPage');
+    // Load is already done in main.dart
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    MyApp.routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    MyApp.routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    // Called when the route above this one is popped, i.e., when coming back
+    super.didPopNext();
+    // Reload the restaurants to refresh the list
+    context.read<RestauranteBloc>().add(const LoadRestaurantes());
   }
 
 

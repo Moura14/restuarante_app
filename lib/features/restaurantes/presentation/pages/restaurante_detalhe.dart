@@ -5,6 +5,7 @@ import 'package:app_restaurantes/features/restaurantes/presentation/bloc/restaur
 import 'package:app_restaurantes/features/restaurantes/presentation/pages/restaurante_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app_restaurantes/main.dart';
 
 class RestaurantDetailsPage extends StatefulWidget {
   const RestaurantDetailsPage({super.key, required this.id});
@@ -18,12 +19,32 @@ class RestaurantDetailsPage extends StatefulWidget {
   State<RestaurantDetailsPage> createState() => _RestaurantDetailsPageState();
 }
 
-class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
+class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> with RouteAware {
 
   @override
   void initState() {
     super.initState();
     print('ID recebido: ${widget.id}');
+    context.read<RestauranteBloc>().add(LoadRestauranteById(widget.id));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    MyApp.routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    MyApp.routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    // Called when the route above this one is popped, i.e., when coming back
+    super.didPopNext();
+    // Reload the restaurant details
     context.read<RestauranteBloc>().add(LoadRestauranteById(widget.id));
   }
 
